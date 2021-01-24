@@ -1,4 +1,5 @@
 const Purchase = require('../models/Purchase');
+const ErrorResponse = require('../utils/errorResponse');
 
 // @desc    Get all purchases
 // @route   GET /api/v1/purchases
@@ -12,7 +13,7 @@ exports.getPurchases = async (req, res, next) => {
             data: purchases,
         });
     } catch (error) {
-        res.status(400).json({ success: false });
+        next(error);
     }
 };
 
@@ -24,7 +25,12 @@ exports.getPurchase = async (req, res, next) => {
         const purchase = await Purchase.findById(req.params.id);
 
         if (!purchase) {
-            return res.status(400).json({ success: false });
+            return next(
+                new ErrorResponse(
+                    `Purchase not found with id of ${req.params.id}`,
+                    404
+                )
+            );
         }
 
         res.status(200).json({
@@ -32,7 +38,7 @@ exports.getPurchase = async (req, res, next) => {
             data: purchase,
         });
     } catch (error) {
-        res.status(400).json({ success: false });
+        next(error);
     }
 };
 
@@ -47,7 +53,7 @@ exports.createPurchase = async (req, res, next) => {
             data: purchase,
         });
     } catch (error) {
-        res.status(400).json({ success: false });
+        next(error);
     }
 };
 
@@ -66,7 +72,12 @@ exports.updatePurchase = async (req, res, next) => {
         );
 
         if (!purchase) {
-            return res.status(400).json({ success: false });
+            return next(
+                new ErrorResponse(
+                    `Purchase not found with id of ${req.params.id}`,
+                    404
+                )
+            );
         }
 
         res.status(200).json({
@@ -74,7 +85,7 @@ exports.updatePurchase = async (req, res, next) => {
             data: purchase,
         });
     } catch (error) {
-        res.status(400).json({ success: false });
+        next(error);
     }
 };
 
@@ -86,7 +97,12 @@ exports.deletePurchase = async (req, res, next) => {
         const purchase = await Purchase.findByIdAndDelete(req.params.id);
 
         if (!purchase) {
-            return res.status(400).json({ success: false });
+            return next(
+                new ErrorResponse(
+                    `Purchase not found with id of ${req.params.id}`,
+                    404
+                )
+            );
         }
 
         res.status(200).json({
@@ -94,6 +110,6 @@ exports.deletePurchase = async (req, res, next) => {
             data: purchase,
         });
     } catch (error) {
-        res.status(400).json({ success: false });
+        next(error);
     }
 };
