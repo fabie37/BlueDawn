@@ -25,6 +25,7 @@ const PurchaseSchema = new mongoose.Schema({
             'General',
             'Enterainment',
             'Utilities',
+            'Groceries',
             'Other',
         ],
     },
