@@ -1,4 +1,4 @@
-const ORIGIN = 'http://localhost:3000';
+const ORIGIN = 'http://192.168.1.217:3000';
 
 const SEND_PURCHASES = 'send_purchases';
 
