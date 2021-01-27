@@ -4,6 +4,9 @@ const morgan = require('morgan');
 const connectDB = require('./config/db');
 const errorHandler = require('./middleware/error');
 const colors = require('colors');
+const io = require('./socket/socket');
+const http = require('http');
+const { ORIGIN } = require('./socket/constants');
 
 // Load env vars
 dotenv.config({ path: './config/config.env' });
@@ -28,7 +31,23 @@ if (process.env.NODE_ENV === 'developement') {
     app.use(morgan('dev'));
 }
 
-const server = app.listen(
+// Server
+const server = http.createServer(app);
+
+// Socket.io
+io.listen(server, {
+    cors: {
+        origin: ORIGIN,
+        methods: ['GET', 'POST'],
+    },
+});
+
+io.on('connection', (socket) => {
+    console.log(`A client has joined...${socket.handshake.address}`.magenta);
+    socket.emit('hello', 'can you hear me?');
+});
+
+server.listen(
     PORT,
     console.log(
         `Server running in ${process.env.NODE_ENV} mode on port ${PORT}`.yellow

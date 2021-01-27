@@ -1,6 +1,7 @@
 const Purchase = require('../models/Purchase');
 const ErrorResponse = require('../utils/errorResponse');
-
+const sendAction = require('../socket/sendAction');
+const { SEND_PURCHASES } = require('../socket/constants');
 // @desc    Get all purchases
 // @route   GET /api/v1/purchases
 // @access  Public
@@ -52,6 +53,8 @@ exports.createPurchase = async (req, res, next) => {
             success: true,
             data: purchase,
         });
+        const purchases = await Purchase.find();
+        sendAction(SEND_PURCHASES, purchases);
     } catch (error) {
         next(error);
     }
@@ -104,11 +107,12 @@ exports.deletePurchase = async (req, res, next) => {
                 )
             );
         }
-
         res.status(200).json({
             success: true,
             data: purchase,
         });
+        const purchases = await Purchase.find();
+        sendAction(SEND_PURCHASES, purchases);
     } catch (error) {
         next(error);
     }
