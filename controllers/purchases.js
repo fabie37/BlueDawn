@@ -53,8 +53,7 @@ exports.createPurchase = async (req, res, next) => {
             success: true,
             data: purchase,
         });
-        const purchases = await Purchase.find();
-        sendAction(SEND_PURCHASES, purchases);
+        sendAction(SEND_PURCHASES, { msg: 'created' });
     } catch (error) {
         next(error);
     }
@@ -111,8 +110,7 @@ exports.deletePurchase = async (req, res, next) => {
             success: true,
             data: purchase,
         });
-        const purchases = await Purchase.find();
-        sendAction(SEND_PURCHASES, purchases);
+        sendAction(SEND_PURCHASES, { msg: 'deleted' });
     } catch (error) {
         next(error);
     }
