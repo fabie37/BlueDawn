@@ -20,6 +20,7 @@ const PurchaseSchema = new mongoose.Schema({
             'Shopping',
             'Health',
             'Services',
+            'Investments',
             'Restaurants',
             'Transport',
             'General',
